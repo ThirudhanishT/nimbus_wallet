@@ -2740,7 +2740,11 @@ function applyLanguage(lang){
 }
 
 /* --------------------------- POSTGRESQL API --------------------------- */
-const API_BASE = window.NIMBUS_API_BASE || 'https://nimbus-wallet-0oe5.onrender.com/api'; // PostgreSQL backend
+const API_BASE = window.NIMBUS_API_BASE || (
+  (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000/api'
+    : 'https://nimbus-wallet-0oe5.onrender.com/api'
+); // Nimbus Wallet PostgreSQL backend
 let API_TOKEN = localStorage.getItem('nimbus_jwt') || '';
 async function apiFetch(path, options={}){
   const headers = {'Content-Type':'application/json', ...(options.headers||{})};
